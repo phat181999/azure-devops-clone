@@ -2,7 +2,7 @@
   "scripts": {
     "client:install": "cd client && npm install -f",
     "client:start": "cd client && npm run start",
-    "client:build": "cd client/udagram-frontend && npm run build",
+    "client:build": "cd client && npm run build",
     "server:install": "cd server && npm install .",
     "server:build": "cd server && npm run build",
     "server:start": "cd server && npm run dev",
