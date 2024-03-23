@@ -1,0 +1,40 @@
+version: 2.1
+
+orbs:
+  node: circleci/node
+  aws-cli: circleci/aws-cli
+
+jobs:
+  build_client:
+    docker:
+      - image: circleci/node:14.17-browsers
+    steps:
+      - checkout
+      - run:
+          name: Install dependencies
+          command: client:install
+      - run:
+          name: Build Angular app
+          command: client:build
+
+  build_server:
+    docker:
+      - image: circleci/node:14.17
+    steps:
+      - checkout
+      - run:
+          name: Install dependencies
+          command: server:install
+      - run:
+          name: Run linting
+          command: server:lint
+      - run:
+          name: Build NestJS app
+          command: server:build
+
+workflows:
+  version: 2
+  build_and_deploy:
+    jobs:
+      - build_client
+      - build_server
