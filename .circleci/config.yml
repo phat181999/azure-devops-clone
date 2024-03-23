@@ -8,10 +8,10 @@ jobs:
       - checkout
       - run:
           name: Install dependencies
-          command: client:install
+          command: npm run client:install
       - run:
           name: Build Angular app
-          command: client:build
+          command: npm run client:build
 
   build_server:
     docker:
@@ -20,13 +20,13 @@ jobs:
       - checkout
       - run:
           name: Install dependencies
-          command: server:install
+          command: npm run server:install
       - run:
           name: Run linting
-          command: server:lint
+          command: npm run server:lint
       - run:
           name: Build NestJS app
-          command: server:build
+          command: npm run server:build
 
 workflows:
   version: 2
