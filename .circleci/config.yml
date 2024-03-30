@@ -54,7 +54,6 @@ jobs:
       - run:
           name: Tag Docker image
           command: |
-            IMAGE_ID=$(docker-compose images -q)
             COMMIT_SHA=$(git rev-parse --short HEAD)
             docker tag $IMAGE_ID phat99/azure-clone:$COMMIT_SHA
             docker images # Print Docker images to verify the tag
@@ -65,11 +64,12 @@ jobs:
 
       - run:
           name: Push Docker image
-          command: docker push phat99/azure-clone:tagname
+          command: docker push phat99/azure-clone:$COMMIT_SHA
 
       - run:
           name: Print success message
-          command: echo "Docker image was successfully pushed to phat99/azure-clone with tagname"
+          command: echo "Docker image was successfully pushed to phat99/azure-clone with tag $COMMIT_SHA"
+
 workflows:
   build_and_deploy:
     jobs:
