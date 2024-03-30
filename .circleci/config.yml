@@ -34,6 +34,7 @@ jobs:
   build-push-docker-image:
     docker:
       - image: docker/compose:1.29.2
+      - image: alpine/git:latest
 
     steps:
       - checkout
