@@ -37,37 +37,15 @@ jobs:
 
     steps:
       - checkout
-      # Install Docker Compose
-      - run:
-          name: Install Docker Compose
-          environment:
-            COMPOSE_VERSION: "1.29.2"
-          command: |
-            curl -L "https://github.com/docker/compose/releases/download/${COMPOSE_VERSION}/docker-compose-$(uname -s)-$(uname -m)" -o ~/docker-compose
-            chmod +x ~/docker-compose
-            sudo mv ~/docker-compose /usr/local/bin/docker-compose
 
-      - setup_remote_docker
+      - setup_remote_docker:
+          docker_layer_caching: true
 
-      # Build and tag Docker images
       - run:
-          name: Build Docker images
+          name: Build and push Docker image
           command: |
             docker-compose build
-      - run:
-          name: Start all services declared in docker-compose.yml
-          command: docker-compose up -d
-
-      # Authenticate Docker Hub
-      - run:
-          name: Authenticate Docker Hub
-          command: |
             echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
-
-      # Push Docker images to Docker Hub
-      - run:
-          name: Push Docker images to Docker Hub
-          command: |
             docker-compose push
 
 workflows:
