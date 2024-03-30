@@ -1,9 +1,12 @@
-version: 2.1
+version: 2.1 # Update pipeline version to 2.1
+
+orbs:
+  node: circleci/node@4.0.0 # Update to the latest version of the node orb
 
 jobs:
   build_client:
     docker:
-      - image: circleci/node:14.17-browsers
+      - image: circleci/node:16-browsers # Update to Node.js 16.x with browsers support
     steps:
       - checkout
       - run:
@@ -15,7 +18,7 @@ jobs:
 
   build_server:
     docker:
-      - image: circleci/node:14.17
+      - image: circleci/node:16 # Update to Node.js 16.x
     steps:
       - checkout
       - run:
@@ -29,7 +32,6 @@ jobs:
           command: npm run server:build
 
 workflows:
-  version: 2
   build_and_deploy:
     jobs:
       - build_client
