@@ -48,9 +48,16 @@ jobs:
           name: Build and push Docker image
           command: |
             docker-compose build
-            echo $DOCKER_PASSWORD | docker login -u $DOCKER_USERNAME --password-stdin
-            docker-compose push
 
+      - run:
+          name: Push Docker image
+          command: |
+            echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
+            docker-compose push
+  
+      - run:
+          name: Print success message
+        command: echo "Docker images were successfully pushed"
 workflows:
   build_and_deploy:
     jobs:
