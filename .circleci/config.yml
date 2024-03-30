@@ -34,7 +34,6 @@ jobs:
   build-push-docker-image:
     docker:
       - image: docker/compose:1.29.2
-      - image: alpine/git:latest
 
     steps:
       - checkout
@@ -55,8 +54,7 @@ jobs:
       - run:
           name: Tag Docker image
           command: |
-            COMMIT_SHA=$(git rev-parse --short HEAD)
-            docker tag $IMAGE_ID phat99/azure-clone:$COMMIT_SHA
+            docker tag $IMAGE_ID phat99/azure-clone:latest
             docker images # Print Docker images to verify the tag
 
       - run:
@@ -74,9 +72,9 @@ jobs:
 workflows:
   build_and_deploy:
     jobs:
-      # - build_client
-      # - build_server
-      - build-push-docker-image
-        # requires:
-        #   - build_client
-        #   - build_server
+      - build_client
+      - build_server
+      # - build-push-docker-image:
+      # requires:
+      #   - build_client
+      #   - build_server
