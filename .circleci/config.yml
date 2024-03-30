@@ -66,9 +66,9 @@ jobs:
 workflows:
   build_and_deploy:
     jobs:
-      - build_client
-      - build_server
+      # - build_client
+      # - build_server
       - build-push-docker-image:
-          requires:
-            - build_client
-            - build_server
+          # requires:
+          #   - build_client
+          #   - build_server
