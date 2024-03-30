@@ -33,7 +33,7 @@ jobs:
 
   build-push-docker-image:
     docker:
-      - image: circleci/node:latest
+      - image: docker:stable
 
     steps:
       - checkout
@@ -42,32 +42,26 @@ jobs:
       - run:
           name: Install Docker Compose
           command: |
-            sudo curl -L "https://github.com/docker/compose/releases/download/1.29.2/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
-            sudo chmod +x /usr/local/bin/docker-compose
+            apk add --no-cache py-pip
+            pip install docker-compose
 
-      # Build and run Docker Compose services
+      # Build and tag Docker images
       - run:
-          name: Build and run Docker Compose
+          name: Build Docker images
           command: |
-            docker-compose -f docker-compose.yml up -d --build
+            docker-compose build
 
-      # Authenticate with Docker Hub
+      # Authenticate Docker Hub
       - run:
-          name: Authenticate with Docker Hub
+          name: Authenticate Docker Hub
           command: |
-            echo "$DOCKERHUB_PASSWORD" | docker login -u "$DOCKERHUB_USERNAME" --password-stdin
+            echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
 
-      # Push images to Docker Hub
+      # Push Docker images to Docker Hub
       - run:
-          name: Push images to Docker Hub
+          name: Push Docker images to Docker Hub
           command: |
-            docker-compose -f docker-compose.yml push
-
-      # Clean up
-      - run:
-          name: Clean up
-          command: |
-            docker-compose -f docker-compose.yml down
+            docker-compose push
 
 workflows:
   build_and_deploy:
