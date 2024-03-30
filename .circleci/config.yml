@@ -33,7 +33,7 @@ jobs:
 
   build-push-docker-image:
     docker:
-      - image: docker:stable
+      - image: docker/compose:1.29.2
 
     steps:
       - checkout
