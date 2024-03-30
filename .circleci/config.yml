@@ -35,29 +35,39 @@ jobs:
     docker:
       - image: docker/compose:1.29.2
 
-    steps:
-      - checkout
+  steps:
+    - checkout
 
-      - setup_remote_docker:
-          docker_layer_caching:
-            true
+    - setup_remote_docker:
+        docker_layer_caching: true
 
-            # echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
-            # echo "${DOCKER_ACCESS_TOKEN}" | docker login -u "${DOCKER_USERNAME}" --password-stdin
-      - run:
-          name: Build and push Docker image
-          command: |
-            docker-compose build
+    - run:
+        name: Build Docker image
+        command: docker-compose build
 
-      - run:
-          name: Push Docker image
-          command: |
-            echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
-            docker-compose push
-  
-      - run:
-          name: Print success message
-          command: echo "Docker images were successfully pushed"
+    - run:
+        name: Get image ID
+        command: |
+          IMAGE_ID=$(docker-compose images -q)
+          echo "Image ID: $IMAGE_ID"
+
+    - run:
+        name: Tag Docker image
+        command: |
+          docker tag $IMAGE_ID phat99/azure-clone:tagname
+          docker images # Print Docker images to verify the tag
+
+    - run:
+        name: Log in to Docker Hub
+        command: echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
+
+    - run:
+        name: Push Docker image
+        command: docker push phat99/azure-clone:tagname
+
+    - run:
+        name: Print success message
+        command: echo "Docker image was successfully pushed to phat99/azure-clone with tagname"
 workflows:
   build_and_deploy:
     jobs:
