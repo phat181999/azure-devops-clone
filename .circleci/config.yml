@@ -49,7 +49,7 @@ jobs:
       - run:
           name: Build Docker images
           command: |
-            docker-compose up --build
+            ../docker-compose up --build
 
       # Authenticate Docker Hub
       - run:
