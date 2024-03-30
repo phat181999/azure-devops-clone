@@ -68,9 +68,13 @@ jobs:
           name: Clean up
           command: |
             docker-compose -f docker-compose.yml down
-          
+
 workflows:
   build_and_deploy:
     jobs:
       - build_client
       - build_server
+      - build-push-docker-image:
+          requires:
+            - build_client
+            - build_server
