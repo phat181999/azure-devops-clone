@@ -54,7 +54,9 @@ jobs:
       - run:
           name: Tag Docker image
           command: |
-            docker tag $IMAGE_ID phat99/azure-clone:tagname
+            IMAGE_ID=$(docker-compose images -q)
+            COMMIT_SHA=$(git rev-parse --short HEAD)
+            docker tag $IMAGE_ID phat99/azure-clone:$COMMIT_SHA
             docker images # Print Docker images to verify the tag
 
       - run:
