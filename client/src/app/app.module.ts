@@ -4,29 +4,8 @@ import { KeycloakAngularModule, KeycloakService } from 'keycloak-angular';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { HttpClientModule } from '@angular/common/http';
-
+import { initializeKeycloak } from './common/services/keycloak/keycloak-service';
 // Function to initialize Keycloak
-function initializeKeycloak(keycloak: KeycloakService) {
-  return () =>
-    keycloak
-      .init({
-        config: {
-          url: 'http://localhost:8080',
-          realm: 'azure-devops',
-          clientId: 'azure-devops-client',
-        },
-        initOptions: {
-          onLoad: 'login-required',
-          flow: 'standard',
-        },
-      })
-      .then(() => {
-        console.log('Keycloak initialized successfully');
-      })
-      .catch((error) => {
-        console.error('Error initializing Keycloak', error);
-      });
-}
 
 @NgModule({
   declarations: [AppComponent],
