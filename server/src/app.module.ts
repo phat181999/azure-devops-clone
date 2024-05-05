@@ -2,7 +2,7 @@ import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import DatabaseModule from './db/database.modules';
+import DatabaseModule from './dtos/database.modules';
 import { KeycloakConfigService } from './services/keycloak-service/keycloak-service';
 import {
   AuthGuard,

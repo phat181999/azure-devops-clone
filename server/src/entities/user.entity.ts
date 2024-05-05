@@ -1,14 +1,17 @@
-// src/user/user.entity.ts
 
-import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
+
+import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn } from 'typeorm';
 
 @Entity()
 export class User {
   @PrimaryGeneratedColumn()
-  id: number;
+  id_user: number;
 
   @Column()
-  username: string;
+  frist_name: string;
+
+  @Column()
+  last_name: string;
 
   @Column()
   email: string;
@@ -16,5 +19,13 @@ export class User {
   @Column()
   password: string;
 
-  // You can add more columns as needed
+  @Column() //{ default: true }
+  role: string;
+
+  @CreateDateColumn({ name: 'created_at' })
+  createdAt: Date;
+
+  @UpdateDateColumn({ name: 'updated_at' })
+  updatedAt: Date;   
+  
 }
